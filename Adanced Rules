@@ -1,0 +1,199 @@
+<LOG ERRORS Hide_Errors="TRUE"/>
+<MACRO PLAYBACK SPEED Speed=".1"/>
+<DELAY Flags="\x11" Time=".1"/>
+<IF FILE EXISTS File="C:\\Users\\Public\\MacroFiles\\results.txt" Search_Path="FALSE"/>
+<GOTO Name="ResutlsReady"/>
+<END IF/>
+<DELAY Flags="\x11" Time=".1"/>
+<CREATE FOLDER Path="C:\\Users\\Public\\MacroFiles\\" _IGNORE="0x0017"/>
+<DELAY Flags="\x11" Time=".1"/>
+<VARIABLE SET STRING Option="\x00" Destination="%Files[1]%" Value="-" NoEmbeddedVars="FALSE"/>
+<DELAY Flags="\x11" Time=".2"/>
+<VARIABLE MODIFY STRING Option="\x11" Destination="%Files[1]%" Filename="C:\\Users\\Public\\MacroFiles\\results.txt" Strip="FALSE" NoEmbeddedVars="FALSE"/>
+<DELAY Flags="\x11" Time=".1"/>
+<LABEL Name="ResutlsReady"/>
+<IF FILE EXISTS File="C:\\Users\\Public\\MacroFiles\\CurrentCSV.csv" Search_Path="FALSE"/>
+<GOTO Name="CSVReady"/>
+<END IF/>
+<DELAY Flags="\x11" Time=".1"/>
+<VARIABLE MODIFY STRING Option="\x11" Destination="%Files[1]%" Filename="C:\\Users\\Public\\MacroFiles\\CurrentCSV.txt" Strip="FALSE" NoEmbeddedVars="FALSE"/>
+<DELAY Flags="\x11" Time=".1"/>
+<COPY FILE/FILES Source="C:\\Users\\Public\\MacroFiles\\CurrentCSV.txt" Dest="C:\\Users\\Public\\MacroFiles\\CurrentCSV.csv" Progress="FALSE" Recurse="FALSE"/>
+<DELAY Flags="\x11" Time=".1"/>
+<LABEL Name="CSVReady"/>
+<LAUNCH PROGRAM AND ACTIVATE WINDOW Title="CurrentCSV.csv" Exact_Match="FALSE" Wildcards="FALSE" Path="C:\\Users\\Public\\MacroFiles\\CurrentCSV.csv" Mode="\x00" Default_Path="TRUE" Wait="1" Wait_For_Program="12"/>
+<PAUSE Flags="\x11" Message="Check CurrentCSV.csv Make sure your data is ready and ***SAVE AS CSV***! Make sure your logged in to the account in AI, with Chrome open an extra tab.  Click Resume once you have everything ready! Love, Peace & Forgiveness! " Left="Center" Top="Center" Monitor="0"/>
+<VARIABLE SET FROM MISC Destination="%MacroName%" Value="Name of Current Macro"/>
+<DELAY Flags="\x11" Time=".2"/>
+<DATE/TIME Format="MMDDYYYY-mmhhss" Flags="\x80" Date="12/30/1899" Day_Offset="0" Month_Offset="0" Year_Offset="0" Hour_Offset="0" Second_Offset="0" Left="Center" Top="Center" Monitor="0" Variable="%Time%" IsDateVar="FALSE" _IGNORE="0x0002"/>
+<DELAY Flags="\x11" Time=".2"/>
+<COPY FILE/FILES Source="C:\\Users\\Public\\MacroFiles\\results.txt" Dest="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%LOG.txt" Progress="FALSE" Recurse="FALSE"/>
+<DELAY Flags="\x11" Time="2"/>
+<COPY FILE/FILES Source="C:\\Users\\Public\\MacroFiles\\CurrentCSV.csv" Dest="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%.csv" Progress="TRUE" Recurse="TRUE"/>
+<DELAY Flags="\x11" Time="5"/>
+<ASCII FILE BEGIN PROCESS Filename="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%.csv" Format="CSV" Start_Record="1" Process_All="TRUE" Records="1" Variable="%RowDetails%" Start_Index="1" Parse_Blank_Lines="FALSE" Clear_Array="TRUE"/>
+<MACRO PLAYBACK SPEED Speed="1"/>
+<LABEL Name="Start"/>
+<VARIABLE MODIFY STRING Option="\x0F" Destination="%RowDetails[1]%" ToReplace="ï»¿" All="TRUE" IgnoreCase="FALSE" NoEmbeddedVars="FALSE"/>
+<IF VARIABLE Variable="%RowDetails[1]%" Condition="\x06" Value="#" IgnoreCase="FALSE"/>
+<VARIABLE SET STRING Option="\x00" Destination="%ErrorLog%" Value="Comment" NoEmbeddedVars="FALSE"/>
+<GOTO Name="Log"/>
+<END IF/>
+<IF VARIABLE Variable="%N[91]%" Condition="\x04" Value="2" IgnoreCase="FALSE"/>
+<VARIABLE SET INTEGER Option="\x00" Destination="%N[91]%" Value="0"/>
+<GOTO Name="Log"/>
+<END IF/>
+<WINDOW ACTIVATE Title="Chrome" Exact_Match="FALSE" Wildcards="FALSE" _IGNORE="0x0006"/>
+<WINDOW ACTIVATE Title="Google Chrome" Exact_Match="FALSE" Wildcards="FALSE" _IGNORE="0x0006"/>
+<DELAY Flags="\x11" Time="2"/>
+<TEXT TYPE Action="0" Text="<CTRLD>w<CTRLU>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<CTRLD>t<CTRLU>"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="1" Text="https://service.ringcentral.com/application/users/users/%RowDetails[1]%/settings/callHandling/advanced\r\n"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELAY Flags="\x11" Time="7"/>
+<WINDOW ACTIVATE Title="Google Chrome" Exact_Match="FALSE" Wildcards="FALSE" _IGNORE="0x0006"/>
+<VARIABLE SET STRING Option="\x02" Destination="%T[98]%" NoEmbeddedVars="FALSE"/>
+<VARIABLE SET INTEGER Option="\x00" Destination="%N[1]%" Value="1"/>
+<WINDOW ACTIVATE Title="Google Chrome" Exact_Match="FALSE" Wildcards="FALSE" _IGNORE="0x0006"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<CTRLD>f<CTRLU>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="Add Rule"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<TAB><TAB><TAB><SPACE>"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELAY Flags="\x11" Time="4"/>
+<TEXT TYPE Action="0" Text="<TAB><TAB><TAB><TAB><TAB>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="UncondFWD - %RowDetails[2]%"/>
+<DELAY Flags="\x11" Time="2"/>
+<DELAY Flags="\x11" Time=".1"/>
+<TEXT TYPE Action="0" Text="<CTRLD>f<CTRLU>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="Next"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<TAB><TAB><TAB><SPACE>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELAY Flags="\x11" Time="4"/>
+<MACRO PLAYBACK SPEED Speed="1"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="288"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="264"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="262"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="249"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="286"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="264"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="295"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text=" "/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="296"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text=" "/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="279"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="313"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text=" "/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<DOWN ARROW>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<DOWN ARROW>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELAY Flags="\x11" Time="2"/>
+<TEXT TYPE Action="0" Text="<CTRLD>f<CTRLU>"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="Next"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<TAB><TAB><TAB><SPACE>"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELAY Flags="\x11" Time="4"/>
+<DELAY Flags="\x03" Time="262"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="249"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="286"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="264"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="295"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<ARROW DOWN>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<ARROW DOWN>"/>
+<DELAY Flags="\x03" Time="200"/>
+<TEXT TYPE Action="0" Text="<ARROW DOWN>"/>
+<DELAY Flags="\x03" Time="262"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="249"/>
+<TEXT TYPE Action="0" Text="<TAB>"/>
+<DELAY Flags="\x03" Time="249"/>
+<TEXT TYPE Action="0" Text="%RowDetails[2]%"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="0" Text="<TAB><TAB>"/>
+<DELAY Flags="\x11" Time="1"/>
+<TEXT TYPE Action="0" Text="<ENTER>"/>
+<DELETE FILE/FILES Path="C:\\Users\\Public\\MacroFiles\\CtrlA.txt" Progress="FALSE" Recurse="FALSE" Permanent="FALSE"/>
+<DELAY Flags="\x11" Time="4"/>
+<WINDOW ACTIVATE Title="Google Chrome" Exact_Match="FALSE" Wildcards="FALSE" _IGNORE="0x0006"/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT TYPE Action="0" Text="<CTRLD>a<CTRLU>"/>
+<DELAY Flags="\x11" Time="1"/>
+<CLIPBOARD COPY/>
+<DELAY Flags="\x11" Time="1"/>
+<CLIPBOARD SAVE TEXT Filename="C:\\Users\\Public\\MacroFiles\\CtrlA.txt" Prompt="FALSE"/>
+<DELAY Flags="\x11" Time=".2"/>
+<MACRO PLAYBACK SPEED Speed=".1"/>
+<TEXT FILE BEGIN PROCESS Filename="C:\\Users\\Public\\MacroFiles\\CtrlA.txt" Start_Record="50" Process_All="FALSE" Records="30" Variable="%ParsText[1]%"/>
+<DELAY Flags="\x11" Time=".2"/>
+<IF VARIABLE Variable="%ParsText[1]%" Condition="\x06" Value="UncondFWD" IgnoreCase="FALSE"/>
+<DELAY Flags="\x11" Time=".2"/>
+<VARIABLE SET STRING Option="\x00" Destination="%ErrorLog%" Value="Success" NoEmbeddedVars="FALSE"/>
+<GOTO Name="Log"/>
+<DELAY Flags="\x11" Time=".2"/>
+<END IF/>
+<DELAY Flags="\x11" Time=".2"/>
+<TEXT FILE END PROCESS/>
+<VARIABLE SET STRING Option="\x00" Destination="%ErrorLog%" Value="Check work - unconfirmed" NoEmbeddedVars="FALSE"/>
+<LABEL Name="Log"/>
+<DELAY Flags="\x11" Time=".1"/>
+<VARIABLE MODIFY STRING Option="\x06" Destination="%ErrorLog%" Value="," NoEmbeddedVars="FALSE"/>
+<VARIABLE MODIFY STRING Option="\x07" Destination="%ErrorLog%" Variable="%RowDetails[1]%" NoEmbeddedVars="FALSE"/>
+<DELAY Flags="\x11" Time=".1"/>
+<VARIABLE MODIFY STRING Option="\x06" Destination="%ErrorLog%" Value="," NoEmbeddedVars="FALSE"/>
+<VARIABLE MODIFY STRING Option="\x07" Destination="%ErrorLog%" Variable="%RowDetails[2]%" NoEmbeddedVars="FALSE"/>
+<DELAY Flags="\x11" Time=".1"/>
+<DELAY Flags="\x11" Time=".1"/>
+<VARIABLE MODIFY STRING Option="\x12" Destination="%ErrorLog%" Filename="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%LOG.txt" Strip="TRUE" NoEmbeddedVars="FALSE"/>
+<ASCII FILE END PROCESS/>
+<COPY FILE/FILES Source="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%LOG.txt" Dest="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%LOG.csv" Progress="FALSE" Recurse="FALSE"/>
+<DELAY Flags="\x11" Time="1"/>
+<LAUNCH PROGRAM AND ACTIVATE WINDOW Title="%Time%%MacroName%LOG.csv" Exact_Match="FALSE" Wildcards="FALSE" Path="C:\\Users\\Public\\MacroFiles\\%Time%%MacroName%LOG.csv" Mode="\x00" Default_Path="TRUE" Wait="1" Wait_For_Program="12"/>
